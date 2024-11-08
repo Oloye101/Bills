@@ -6,6 +6,10 @@ import { addDoc, collection } from "firebase/firestore";
 import { CircularProgress } from "@mui/material";
 import {useFormik} from "formik";
 import * as yup from "yup";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
+
 const schema = yup.object().shape({
     amount:yup.number(). required().min(1000),
 })
@@ -19,8 +23,15 @@ export default function borrow() {
     const [clickedRate, setClickedRate] = useState(undefined);
     const [rate, setrate] = useState(0);
     const [payback, setpayback] = useState(undefined);4
-    const [loadDate, setloadDate] = useState(0);
+    // const [loadDate, setloadDate] = useState(0);
     const [opsprogress, setopsprogress] = useState(false);
+    const {data:session} = useSession();
+
+    // //check for user authentication
+    // useEffect(() => {
+    //     if 
+    // })
+
     
     const {handleSubmit, handleChange, values, touched,errors} = useFormik({
         initialValues: {
@@ -29,7 +40,7 @@ export default function borrow() {
         onSubmit: async () => {
             setopsprogress(true);
             await addDoc(collection(db, "loans"), {
-                user: "dummy",
+                user: session?.user?.id,
                 amount: values.amount,
                 payback: payback,
                 rate: rate,

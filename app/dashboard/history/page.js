@@ -31,9 +31,10 @@ export default function History () {
                 <h1 className="text-xl text-gray-800 mb-4">My Loan History</h1>
                 <div className="flex flex-col gap-4">
                 {loans.map(loan => <HistoryTab 
-                amount={6500}
-                rate={12.5}
-                duration={30}
+                docId={loan.id}
+                amount={loan.data.amount}
+                rate={loan.data.rate}
+                duration={loan.data.duration}
                 date= "13 Oct 2024"
                 type="Personal"
                 key={loan}/>)}
