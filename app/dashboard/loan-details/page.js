@@ -8,6 +8,7 @@ import { useSearchParams } from "next/navigation";
 import {TextField,Button} from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { AppContext } from "@/config/context.config";
 
 
 const schema = yup.object().shape ({
@@ -15,15 +16,15 @@ const schema = yup.object().shape ({
 });
 
 export default function History () {
+    const {loanDocId} = React.useContext(AppContext)
     const [loan, setLoan] = React.useState(null);
     const [totaloffsets, setTotaloffsets] = React.useState(0);
 
-const docId = useSearchParams().get("doc_id")
+console.log("++", loanDocId);
 
     React.useEffect(() => {
        const handleDocFetch = async () => {
-        const docRef = doc (db, "loans", docId);
-        
+        const docRef = doc (db, "loans", loanDocId);
         const res = await getDoc (docRef);
 
         if (res.exists ()) {

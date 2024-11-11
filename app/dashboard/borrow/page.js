@@ -127,7 +127,7 @@ export default function borrow() {
                     </ul>
                 </div>
                 <div className=" border-dash border border-blue-500 p-4 rounded-md">
-                    <p className="text-gray-800">Interest rate for {loadDate}days</p>
+                    {/* <p className="text-gray-800">Interest rate for {loadDate}days</p> */}
                     <p className="text-6xl text-blue-600"> { rate}%</p>
                 </div>
                 <div className="flex flex-col gap-3 bg-gradient-to-b from-blue-600 to to-blue-800 border-dash border border-blue-500 p-4 rounded-md">
