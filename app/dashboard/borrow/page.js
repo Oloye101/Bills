@@ -21,10 +21,11 @@ const duration = [
 ];
 export default function borrow() {
     const [clickedRate, setClickedRate] = useState(undefined);
-    const [rate, setrate] = useState(0);
+    const [rate, setRate] = useState(0);
     const [payback, setpayback] = useState(undefined);4
+    const [loanduration, setLoanduration] = useState(0);
     // const [loadDate, setloadDate] = useState(0);
-    const [opsprogress, setopsprogress] = useState(false);
+    const [opsprogress, setOpsProgress] = useState(false);
     const {data:session} = useSession();
 
     // //check for user authentication
@@ -35,19 +36,22 @@ export default function borrow() {
     
     const {handleSubmit, handleChange, values, touched,errors} = useFormik({
         initialValues: {
+
             amount:undefined
         },
         onSubmit: async () => {
-            setopsprogress(true);
+            setOpsProgress(true);
+
             await addDoc(collection(db, "loans"), {
                 user: session?.user?.id,
                 amount: values.amount,
                 payback: payback,
                 rate: rate,
-                duration: loadDate,
+                duration: loanduration,
                 timecreated: new Date().getTime()
-            }).then(() => {
-                setopsprogress(false);
+            })
+            .then(() => {
+                setOpsProgress(false);
                 alert(`you have successfully borrowed ${values.amount} at the rate of ${rate}`)
             })
                 .catch(e => {
@@ -98,26 +102,29 @@ export default function borrow() {
                                 onClick={() => {
                                     setClickedRate(item.id);
                                     if (item.days === 7) {
-                                        setrate(15.5)
+                                        setRate(15.5);
+                                        setLoanduration(7)
                                     }
                                     else if (item.days === 30) {
-                                        setrate(12)
+                                        setRate(12)
+                                        setLoanduration(30)
                                     }
                                     else if (item.days === 90) {
-                                        setrate(9.5)
+                                        setRate(9.5);
+                                        setLoanduration(90)
                                     }
                                     
                             
                                     
-                                    if (item.days === 7) {
-                                        setloadDate(7)
-                                    }
-                                    else if (item.days === 30) {
-                                        setloadDate(30)
-                                    }
-                                    else if (item.days === 90) {
-                                        setloadDate(90)
-                                    }
+                                    // if (item.days === 7) {
+                                    //     setLoanduration(7)
+                                    // }
+                                    // else if (item.days === 30) {
+                                    //     setloanduration(30)
+                                    // }
+                                    // else if (item.days === 90) {
+                                    //     // setloanDate(90)
+                                    // }
                                 }}
                                 
                                 className={'h-16 bg-blue-700 text-white text-md  uppercase rounded-md justify-center flex items-center'}>{item.days} Days</li>)
