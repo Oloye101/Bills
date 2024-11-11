@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function Auth () {
     const {data:session} = useSession();
     const router = useRouter();
-   console.log(session)giy
+   console.log(session)
 React.useEffect(() => {
     if (session?.user) {
         router.push("/dashboard/borrow")
