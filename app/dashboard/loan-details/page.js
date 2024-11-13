@@ -24,7 +24,7 @@ console.log("++", loanDocId);
 
     React.useEffect(() => {
        const handleDocFetch = async () => {
-        const docRef = doc (db, "loans", loanDocId);
+        const docRef = doc(db,"loans",loanDocId);
         const res = await getDoc (docRef);
 
         if (res.exists ()) {
