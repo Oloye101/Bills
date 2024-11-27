@@ -1,3 +1,4 @@
+"use client"
 import { useFormik} from "formik"
 import * as yup from "yup";
 import { TextField, Button } from "@mui/material";
@@ -33,13 +34,13 @@ export default function UpdateProfile () {
                     id="firstName"
                     label= "frist name"
                     variant="outlined"
-                    value={value.firstName}
+                    value={value?.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="eg Ademola"
                     className="w-full"
                     />
-                    {touched.firstName && errors.firstName ? <span className="text-xs text-red-500">{errors.firstName}</span> : null}
+                    {touched?.firstName && errors?.firstName ? <span className="text-xs text-red-500">{errors?.firstName}</span> : null}
                  </div>
                 <div className="mb-3">
                     <TextField
@@ -47,13 +48,13 @@ export default function UpdateProfile () {
                     id="lastname"
                     label= "frist name"
                     variant="outlined"
-                    value={value.lastname}
+                    value={value?.lastname}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="eg Ademola"
                     className="w-full"
                     />
-                    {touched.lastname && errors.lastname ? <span className="text-xs text-red-500">{errors.lastname}</span> : null}
+                    {touched?.lastname && errors?.lastname ? <span className="text-xs text-red-500">{errors?.lastname}</span> : null}
                  </div>
                 <div className="mb-3">
                     <TextField
@@ -61,13 +62,13 @@ export default function UpdateProfile () {
                     id="firstName"
                     label= "frist name"
                     variant="outlined"
-                    value={value.firstName}
+                    value={value?.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     placeholder="eg Ademola"
                     className="w-full"
                     />
-                    {touched.firstName && errors.firstName ? <span className="text-xs text-red-500">{errors.firstName}</span> : null}
+                    {touched?.firstName && errors?.firstName ? <span className="text-xs text-red-500">{errors?.firstName}</span> : null}
                  </div>
             <button type="submit" variant="contained">Update Profile</button>
             </form>
