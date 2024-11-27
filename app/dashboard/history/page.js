@@ -3,15 +3,20 @@
 import React from "react";
 import { db } from "@/config/firebase.config";
 import { HistoryTab } from "@/app/components/HistoryTab";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs,orderBy,where } from "firebase/firestore";
+import { useSession } from "next-auth/react";
 
 export default function History () {
     const [loans, setLoans] = React.useState([]);
+    const {data:session} = useSession();
 
     React.useEffect(() => {
         const handleFetchLoan = async () => {
             const q = collection (db, "loans");
-            const onSnap = await getDocs (q);
+            const onSnap = await getDocs (q,
+                where("user", "==", session?.user?.id),
+                orderBy ("timecreated", "asc")
+            );
 
             const compileResults = [];
             onSnap.docs.forEach(doc => {
@@ -22,8 +27,8 @@ export default function History () {
                 setLoans(compileResults)
             })
         }
-        handleFetchLoan()
-    },[]);
+        session ? handleFetchLoan() : null;
+    },[session]);
   
     return( 
         <main className="min-h-screen flex justify-center items-center bg-gradient-to-b from-sky-100 via-sky-200 to-blue-300">
@@ -35,7 +40,7 @@ export default function History () {
                 amount={loan.data.amount}
                 rate={loan.data.rate}
                 duration={loan.data.duration}
-                date= "13 Oct 2024"
+                timestamp={loan.data.timecreated}
                 type="Personal"
                 key={loan}/>)}
                 </div>

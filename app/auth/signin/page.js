@@ -1,22 +1,16 @@
-"use client"
-import React from "react";
-import { Button } from "@mui/material";
+"use server"
+import { auth,signIn } from "@/auth";
 import Link from "next/link";
 import { FaGoogle } from "react-icons/fa";
-import { FaXT, FaXTwitter} from "react-icons/fa6";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { FaXTwitter} from "react-icons/fa6";
+import { redirect } from "next/navigation";
 
-export default function Auth () {
-    const {data:session} = useSession();
-    const router = useRouter();
-   console.log(session)
-React.useEffect(() => {
-    if (session?.user) {
-        router.push("/dashboard/borrow")
+export default async function Auth () {
+    const session = await auth();
 
-    }
-},[session]);
+if (session) {
+    redirect ("/dashboard/borrow")
+}
 
     return (
         <main className="min-h-[520px] flex justify-center bg-gradient-to-b from-gray-50 to-gray-300 py-8 px-2">
@@ -26,21 +20,24 @@ React.useEffect(() => {
                     <p className="text-sm text-gray-600 mb-4">Sign in using...</p>
 
                         <form className="mb-2"
-                    action={() => {
-                    
-                        signIn("google")
+                    action={async() => {
+                    "use server"
+                        await signIn("google")
                     }}> 
                         <button type="submit" className="w-full h-[3.2em] flex justify-center items-center gap-2 border-b-2 border-red-500 bg-black rounded-md">
                             <FaGoogle className="text-green-500 text-2xl"/>
                             <span className="text-white text-lg">Google account</span>
                         </button>
                     </form>
-                    <form 
+                    <form  action={async() => {
+                    "use server"
+                        await signIn("twitter")
+                    }}
                     className="mb-2"> 
                         <button type="submit" className="w-full h-[3.2em] flex justify-center items-center gap-2 border-b-2 border-gray-50 bg-black rounded-md">
                             <FaXTwitter className="text-white text-2xl"/>
                             <span className="text-white text-lg">Twitter account</span>
-                        </button>
+                            </button>
                     </form>
                     <p className="text-gray-600">By clicking the signin in button you confirm that you have read and agreed with our 
                         <Link href="#" className="text-gray-800 underline"> Terms of use </Link> and <Link href="#" className="text-gray-800 underline">Privacy Policy</Link></p>
